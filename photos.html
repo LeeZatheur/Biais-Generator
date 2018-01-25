@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <style>
+      img
+      {
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          padding: 5px;
+          display: block;
+          margin-left: auto;
+          margin-right: auto;
+      }
+    </style>
+    <title>Your daily picture</title>
+  </head>
+  <body>
+    <div id="header" style="text-align:center;font-size:180%;font-weight:bold"></div>
+    <div id="imageContent">
+      <img id="imageOfTheDay" class="imageOfTheDay"/>
+    </div>
+    <div id="header" style="text-align:center;font-size:180%;font-weight:bold">Enjoy it !</div>
+    <script id="searchScript"></script>
+    <script>
+      function hndlr(response) 
+      {
+        var MilliSecondsInDay = 1000 * 3600 * 24;
+        var TodayIndex        = (Math.floor(Date.now() / MilliSecondsInDay)) % 50;
+        var Item              = response.items[TodayIndex];
+       
+        document.getElementById("imageOfTheDay").src = Item.link;   
+      }
+    </script>
+    <script type="text/javascript">
+      function ConfigurePage()
+      {
+        var FileType          = "png";
+        var Research          = {"foo": 1,"bar": 4,"foobar": 8};
+        var WeightedResearch  = [];
+        for (var key in Research)
+        {
+          var Weight = Research[key];
+          for (var i = 0; i < Weight; i++)
+          {
+            WeightedResearch.push(key);
+          }
+        }
+        var MilliSecondsInDay = 1000 * 3600 * 24;
+        var TodayIndex        = (Math.floor(Date.now() / MilliSecondsInDay)) % WeightedResearch.length;
+        var Item              = WeightedResearch[TodayIndex];
+        var Title             = "Your daily " + Item.split('+')[0];
+        document.title        = Title;
+        document.getElementById("header").innerHTML = Title;
+        document.getElementById("searchScript").src =
+          "https://www.googleapis.com/customsearch/v1?key=AIzaSyC0P4p2tFdHwuQphyN6ZhojhOpQX-WsQ_8&cx=014081673108791120636:_x1f4zevsu8&searchType=image&q=" + Item + "&fileType=" + FileType + "&callback=hndlr";
+      }
+
+      window.onload = ConfigurePage;
+    </script>    
+  </body>
+</html>
