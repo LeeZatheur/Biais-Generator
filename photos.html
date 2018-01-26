@@ -33,6 +33,19 @@
       }
     </script>
     <script type="text/javascript">
+      function shuffle(a,seed) 
+      {
+        var ShuffledArray = [];
+        var OriginalLength = a.length;
+        for (let i = OriginalLength - 1; i > 0; i--) 
+        {
+          var ShuffledIndex = Math.abs(((i + seed ) * Math.pow(i,seed) * (i + 1 - seed)) + seed) % a.length;
+          ShuffledArray.push(a[ShuffledIndex]);
+          a.splice(ShuffledIndex, 1);
+        }
+        ShuffledArray.push(a[0]);
+        return ShuffledArray;
+      }
       function ConfigurePage()
       {
         var FileType          = "png";
@@ -48,7 +61,8 @@
         }
         var MilliSecondsInDay = 1000 * 3600 * 24;
         var TodayIndex        = (Math.floor(Date.now() / MilliSecondsInDay)) % WeightedResearch.length;
-        var Item              = WeightedResearch[TodayIndex];
+        var WeightedResearch2 = shuffle(WeightedResearch, TodayIndex);
+        var Item              = WeightedResearch2[TodayIndex];
         var Title             = "Your daily " + Item.split('+')[0];
         document.title        = Title;
         document.getElementById("header").innerHTML = Title;
