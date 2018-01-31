@@ -26,7 +26,8 @@
       function hndlr(response) 
       {
         var MilliSecondsInDay = 1000 * 3600 * 24;
-        var TodayIndex        = (Math.floor(Date.now() / MilliSecondsInDay)) % 50;
+        var Max               = Math.min(50, response.items.length);
+        var TodayIndex        = (Math.floor(Date.now() / MilliSecondsInDay)) % Max;
         var Item              = response.items[TodayIndex];
        
         document.getElementById("imageOfTheDay").src = Item.link;   
